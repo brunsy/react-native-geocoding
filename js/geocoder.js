@@ -5,9 +5,14 @@ const { RNGeocoder } = NativeModules;
 
 export default {
   apiKey: null,
+  language: 'en',
 
   fallbackToGoogle(key) {
     this.apiKey = key;
+  },
+
+  setLanguage(lang) {
+    this.language = lang
   },
 
   geocodePosition(position) {
@@ -17,7 +22,7 @@ export default {
 
     return RNGeocoder.geocodePosition(position).catch(err => {
       if (!this.apiKey) { throw err; }
-      return GoogleApi.geocodePosition(this.apiKey, position);
+      return GoogleApi.geocodePosition(this.apiKey, position, this.language);
     });
   },
 
@@ -28,7 +33,7 @@ export default {
 
     return RNGeocoder.geocodeAddress(address).catch(err => {
       if (!this.apiKey) { throw err; }
-      return GoogleApi.geocodeAddress(this.apiKey, address);
+      return GoogleApi.geocodeAddress(this.apiKey, address, this.language);
     });
   },
 }
